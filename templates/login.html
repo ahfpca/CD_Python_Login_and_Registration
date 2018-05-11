@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        .error {
+            color: red;
+            margin-top: -8px;
+        }
+
+        .message {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+        label {
+            margin-bottom: 0px;
+        }
+
+        .dField {
+            margin-top: 10px;
+        }
+
+        h3 {
+            margin-left: -15px;
+        }
+
+        body {
+            background-color: rgb(22, 19, 16);
+            color: rgb(133, 113, 93);
+        }
+
+        input {
+            background-color: rgb(22, 19, 16);
+            color: rgb(133, 113, 93);
+            border-color: darkgray;
+        }
+
+    </style>
+    <title>Registration Form</title>
+</head>
+<body>
+    <br>
+    <br>
+    <div class="container">
+        <h1 class="row">Login and Registration</h1>
+        <div class="row">
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+            {% if errors %}
+                {% for message in errors %}
+                    <h4 class="col-12 error text-center">{{ message }}</h4>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% with errors = get_flashed_messages(category_filter=["message"]) %}
+            {% if errors %}
+                {% for message in errors %}
+                    <h4 class="col-12 message text-center">{{ message }}</h4>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        </div>
+        <div class="row">
+            <!-- Registration section -->
+            <div class="col-6"> 
+                <h3>Register here!</h3>
+                <form action="/register" method="post">
+                    <label class="row dField" for="first_name"><span class="red">*&nbsp;</span>First Name:</label>
+                    {% with errors = get_flashed_messages(category_filter=["first_name"]) %}
+                        {% if errors %}
+                            {% for message in errors %}
+                                <label class="row error">{{ message }}</label>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <input class="row col-10" type="text" name="first_name" id="first_name" placeholder="" value="{{ session["first_name"] }}">
+
+                    <label class="row dField" for="last_name"><span class="red">*&nbsp;</span>Last Name:</label>
+                    {% with errors = get_flashed_messages(category_filter=["last_name"]) %}
+                        {% if errors %}
+                            {% for message in errors %}
+                                <label class="row error">{{ message }}</label>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <input class="row col-10" type="text" name="last_name" id="last_name" placeholder="" value="{{ session["last_name"] }}">
+
+                    <label class="row dField" for="email"><span class="red">*&nbsp;</span>Email</label>
+                    {% with errors = get_flashed_messages(category_filter=["email"]) %}
+                        {% if errors %}
+                            {% for message in errors %}
+                                <label class="row error">{{ message }}</label>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <input class="row col-10" type="email" name="email" id="email" placeholder="" value="{{ session["email"] }}">
+
+                    <label class="row dField" for="passcode"><span class="red">*&nbsp;</span>Password:</label>
+                    {% with errors = get_flashed_messages(category_filter=["passcode"]) %}
+                        {% if errors %}
+                            {% for message in errors %}
+                                <label class="row error">{{ message }}</label>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <input class="row col-10" type="password" name="passcode" id="passcode" placeholder="" value="">
+
+                    <label class="row dField" for="{{ session["email"] }}"><span class="red">*&nbsp;</span>Confirm Password:</label>
+                    {% with errors = get_flashed_messages(category_filter=["pass_confirm"]) %}
+                        {% if errors %}
+                            {% for message in errors %}
+                                <label class="row error">{{ message }}</label>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <input class="row col-10" type="password" name="pass_confirm" id="pass-confirm" placeholder="" value="">
+
+                    <label class="row dField" for="birth_date"><span class="red">*&nbsp;</span>Birth Date:</label>
+                    {% with errors = get_flashed_messages(category_filter=["birth_date"]) %}
+                        {% if errors %}
+                            {% for message in errors %}
+                                <label class="row error">{{ message }}</label>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <input class="row col-10" type="date" name="birth_date" id="birth_date" placeholder="mm/dd/yyyy" value="{{ session["birth_date"] }}">
+                    
+                    <input class="row dField" type="submit" value="Register">
+                    <br>
+                </form>
+            </div>
+            <!-- Login section -->
+            <div class="col-6">
+                <h3>Login here!</h3>
+                {% with errors = get_flashed_messages(category_filter=["user_login"]) %}
+                    {% if errors %}
+                        {% for message in errors %}
+                            <label class="row error">{{ message }}</label>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/login" method="post">
+                    <label class="row dField" for="email"><span class="red">*&nbsp;</span>Email</label>
+                    <input class="row col-10" type="email" name="email" id="email" placeholder="" value="{{ session["email_login"] }}">
+                    <label class="row dField" for="passcode"><span class="red">*&nbsp;</span>Password:</label>
+                    <input class="row col-10" type="password" name="passcode" id="passcode" placeholder="" value="">
+                    <input class="row dField" type="submit" value="Login">
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+</html>
