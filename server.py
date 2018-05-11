@@ -42,7 +42,7 @@ def success():
         if result:
             return render_template("success.html", user = result[0])
 
-    return render_template("success.html")
+    return redirect("/")
 
 
 @app.route("/login", methods=["post"])
